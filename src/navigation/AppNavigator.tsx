@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
@@ -7,8 +7,8 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { HomeScreen, LoginScreen, SignupScreen } from '../screens';
 import { navigationRef } from './navigationService';
 import { useAuth } from '../context';
-
-
+import { checkOnboardingComplete } from '../utils/onboardingStorage';
+import OnboardingNavigator from './OnboardingNavigator'; // 👈 import your onboarding flow!
 
 // Define the navigation parameters type for type safety
 export type RootStackParamList = {
@@ -21,75 +21,81 @@ export type RootStackParamList = {
 const Stack = createStackNavigator<RootStackParamList>();
 
 // Auth stack (when user is not authenticated)
-const AuthStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#007AFF',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-    >
-      <Stack.Screen 
-        name="Login" 
-        component={LoginScreen} 
-        options={{ title: 'Login' }} 
-      />
-      <Stack.Screen 
-        name="Signup" 
-        component={SignupScreen} 
-        options={{ title: 'Create Account' }} 
-      />
-    </Stack.Navigator>
-  );
-};
+const AuthStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: '#007AFF' },
+      headerTintColor: '#fff',
+      headerTitleStyle: { fontWeight: 'bold' },
+    }}
+  >
+    <Stack.Screen 
+      name="Login" 
+      component={LoginScreen} 
+      options={{ title: 'Login' }} 
+    />
+    <Stack.Screen 
+      name="Signup" 
+      component={SignupScreen} 
+      options={{ title: 'Create Account' }} 
+    />
+  </Stack.Navigator>
+);
 
 // App stack (when user is authenticated)
-const AppStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#007AFF',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
-      }}
-    >
-      <Stack.Screen 
-        name="Home" 
-        component={HomeScreen} 
-        options={{ title: 'Home' }} 
-      />
-    </Stack.Navigator>
-  );
-};
+const AppStack = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerStyle: { backgroundColor: '#007AFF' },
+      headerTintColor: '#fff',
+      headerTitleStyle: { fontWeight: 'bold' },
+    }}
+  >
+    <Stack.Screen 
+      name="Home" 
+      component={HomeScreen} 
+      options={{ title: 'Home' }} 
+    />
+  </Stack.Navigator>
+);
 
-// Loading component
+// Loading screen while checking auth or onboarding
 const LoadingScreen = () => (
   <View style={styles.loadingContainer}>
     <ActivityIndicator size="large" color="#007AFF" />
   </View>
 );
 
-// Main navigation component
 const AppNavigator = () => {
   const { isAuthenticated, isLoading } = useAuth();
+  const [onboardingComplete, setOnboardingComplete] = useState<boolean | null>(null);
 
-  // Show loading screen while checking authentication
-  if (isLoading) {
+  // Check onboarding status locally
+  useEffect(() => {
+    const loadOnboardingStatus = async () => {
+      const isComplete = await checkOnboardingComplete();
+      setOnboardingComplete(isComplete);
+    };
+
+    loadOnboardingStatus();
+  }, []);
+
+  // Show loading screen if still checking
+  if (isLoading || onboardingComplete === null) {
     return <LoadingScreen />;
   }
 
   return (
     <NavigationContainer ref={navigationRef}>
-      {isAuthenticated ? <AppStack /> : <AuthStack />}
+      {!isAuthenticated ? (
+        onboardingComplete ? (
+          <AuthStack /> // 👈 onboarding complete? show login/signup
+        ) : (
+          <OnboardingNavigator /> // 👈 onboarding NOT complete? show onboarding flow
+        )
+      ) : (
+        <AppStack /> // 👈 already logged in? go home
+      )}
     </NavigationContainer>
   );
 };
@@ -102,4 +108,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default AppNavigator; 
+export default AppNavigator;

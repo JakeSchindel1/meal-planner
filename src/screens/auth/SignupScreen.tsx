@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
-import { colors, spacing, textVariants, buttonVariants, inputVariants, layout } from '../styles/styles'; // 👈 import shared styles
+import { colors, spacing, textVariants, buttonVariants, inputVariants, layout } from '../../styles/styles'; // 👈 import shared styles
+import { API_URL } from '../../services/api';
 
 export default function SignupScreen() {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ export default function SignupScreen() {
 
     try {
       // Sign up the user
-      const response = await fetch('http://localhost:4000/auth/signup', {
+      const response = await fetch(`${API_URL}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -30,7 +31,7 @@ export default function SignupScreen() {
       }
 
       // Create the user profile
-      await fetch('http://localhost:4000/user/createProfile', {
+      await fetch(`${API_URL}/user/createProfile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

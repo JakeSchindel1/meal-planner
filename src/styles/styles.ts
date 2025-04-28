@@ -40,6 +40,12 @@ export const textVariants = StyleSheet.create({
     color: colors.background,
     fontWeight: 'bold',
   },
+  heroTitle: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#333',
+    textAlign: 'center',
+  },
 });
 
 // Button variants (primary, secondary, danger)

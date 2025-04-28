@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { supabase } from '../services';
 import { User, Session, AuthError } from '@supabase/supabase-js';
+import { API_URL } from '../services/api';
 
 // Define the context state type
 type AuthContextType = {
@@ -33,14 +34,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // update session count and last login 
+  const updateUserSession = async (userId: string) => {
+    try {
+      await fetch(`${API_URL}/user/updateSession`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: userId }),
+      });
+    } catch (error) {
+      console.error('Failed to update session:', error);
+    }
+  };
+
   // Initialize auth state with current session if it exists
   useEffect(() => {
-    // Check for existing session
     const initializeAuth = async () => {
       setIsLoading(true);
       
       try {
-        // Get current session
         const { data: { session: currentSession }, error } = await supabase.auth.getSession();
         
         if (error) {
@@ -60,7 +72,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     initializeAuth();
 
-    // Listen for auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
         setSession(currentSession);
@@ -69,16 +80,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     );
 
-    // Cleanup subscription on unmount
     return () => {
       subscription.unsubscribe();
     };
   }, []);
 
-  // Login with email and password
+  // --- LOGIN ---
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('http://localhost:4000/auth/login', {
+      const response = await fetch(`${API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -92,6 +102,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   
       setUser(data.user);
       setSession(data.session);
+
+      if (data.user?.id) {
+        await updateUserSession(data.user.id);
+      }
   
       return { error: null };
     } catch (err) {
@@ -101,12 +115,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
     }
   };
-  
 
-  // Sign up with email and password
+  // --- SIGNUP ---
   const signup = async (email: string, password: string) => {
     try {
-      const response = await fetch('http://localhost:4000/auth/signup', {
+      const response = await fetch(`${API_URL}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -119,7 +132,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
   
       setUser(data.user);
-      setSession(null); // No session yet until email confirmed usually
+      setSession(null); 
   
       return { error: null, user: data.user };
     } catch (err) {
@@ -130,9 +143,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
     }
   };
-  
 
-  // Log out
+  // --- LOGOUT ---
   const logout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -158,4 +170,4 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export default AuthContext; 
+export default AuthContext;

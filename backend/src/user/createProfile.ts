@@ -11,27 +11,39 @@ const supabase = createClient(
 );
 
 export const createProfile = async (req: Request, res: Response) => {
-  console.log('📥 Incoming createProfile request:', req.body); // ✅ Log the incoming request body
+  console.log('📥 Incoming createProfile request:', req.body);
 
-  const { id, email } = req.body;
+  const { id, email, name, preferences } = req.body;
 
-  if (!id || !email) {
-    console.error('❌ Missing id or email');
-    return res.status(400).json({ error: 'Missing user id or email' });
+  if (!id || !email || !name || !preferences) {
+    console.error('❌ Missing required fields');
+    return res.status(400).json({ error: 'Missing user id, email, name, or preferences' });
   }
 
-  const { error } = await supabase.from('users').insert([
-    {
-      id,
-      email,
-      name: 'New User',
-      onboarding_complete: false,
-      created_at: new Date(), // or let Supabase auto-generate it
-    },
-  ]);
+  const { error } = await supabase
+    .from('users')
+    .insert([
+      {
+        id,
+        email,
+        name,
+        onboarding_complete: true,
+        prep_style: preferences.prepStyle,
+        plan_days: preferences.mealDays,   
+        preferences: {
+          dietaryStyle: preferences.dietaryStyle,
+          cookingSkill: preferences.cookingSkill,
+          mealGoals: preferences.mealGoals,
+          allergies: preferences.allergies,
+          mealTimes: preferences.mealTimes,
+          kitchenEquipment: preferences.kitchenEquipment,
+        },
+        created_at: new Date(), 
+      },
+    ]);
 
   if (error) {
-    console.error('❌ Supabase Insert Error:', error.message); // ✅ Log any insert error
+    console.error('❌ Supabase Insert Error:', error.message);
     return res.status(400).json({ error: error.message });
   }
 
