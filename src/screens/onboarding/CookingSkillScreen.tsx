@@ -3,7 +3,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { OnboardingScreen, OptionButton } from '../../components';
 import { OnboardingScreenProps } from '../../types/navigation';
 import { useOnboarding } from '../../context';
-import { onboardingContent } from '../../constants/onboarding';
+import { onboardingContent } from '../../lib/constants/onboarding';
 import { colors } from '../../styles/styles';
 
 const CookingSkillScreen: React.FC<OnboardingScreenProps<'CookingSkill'>> = ({ navigation }) => {

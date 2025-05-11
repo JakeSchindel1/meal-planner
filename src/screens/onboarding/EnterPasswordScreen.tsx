@@ -79,11 +79,9 @@ const EnterPasswordScreen: React.FC = () => {
         throw new Error(data.error || 'Signup failed');
       }
 
-      // Success!
-      Alert.alert('Success', 'Account created successfully!');
-
+      // Success! Auth state will update and navigation will happen automatically.
       clearPreferences(); // Optional: clear onboarding context
-      navigation.navigate('Home'); // 👈 Or wherever you want after signup
+      // navigation.navigate('Home'); // Removed: let auth state handle navigation
 
     } catch (error: any) {
       console.error('Signup error:', error.message);

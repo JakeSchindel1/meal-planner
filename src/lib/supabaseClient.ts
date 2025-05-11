@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { ENV, isEnvValid } from '../constants';
+import { ENV, isEnvValid } from '../lib/constants';
 
 /**
  * Create and configure the Supabase client
