@@ -5,11 +5,13 @@ import { RootStackParamList } from '../../navigation/AppNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { colors, spacing, textVariants, buttonVariants, inputVariants, layout, linkStyles } from '../../styles/styles';
 import { API_URL } from '../../services/api';
+import { useAuth } from '../../context'; // or useAuthentication from '../hooks'
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 
 export default function LoginScreen() {
   const navigation = useNavigation<LoginScreenNavigationProp>();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,22 +26,12 @@ export default function LoginScreen() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Login failed');
+      const { error } = await login(email, password);
+      if (error) {
+        Alert.alert('Error', error.message || 'Login failed');
       }
-
-      Alert.alert('Success', 'Logged in successfully!');
-      // TODO: Update your auth context with login status
+      // No need to show a success alert; navigation will indicate success
     } catch (error: any) {
-      console.error(error);
       Alert.alert('Error', error.message || 'Something went wrong.');
     } finally {
       setLoading(false);

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "preinstall": "nvm use || echo 'Please nvm use 18 manually'",
     "dev": "nodemon src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
@@ -12,16 +13,16 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0"
+    "cors": "2.8.5",
+    "dotenv": "16.5.0",
+    "express": "5.1.0"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
-    "@types/node": "^22.15.2",
-    "nodemon": "^3.1.10",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "@types/cors": "2.8.18",
+    "@types/express": "5.0.1",
+    "@types/node": "22.15.2",
+    "nodemon": "3.1.10",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.3"
   }
 }
