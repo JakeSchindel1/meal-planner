@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   Pressable
 } from 'react-native';
-import { textVariants, colors, spacing, layout } from '../../styles/styles';
+import { textVariants, colors, spacing, layout } from '@/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 
 interface PreviewButtonProps {

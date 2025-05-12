@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
-import { OnboardingScreen, OptionButton } from '../../components';
-import { OnboardingScreenProps } from '../../types/navigation';
-import { useOnboarding } from '../../context';
-import { onboardingContent } from '../../lib/constants/onboarding';
-import { buttonVariants, colors, spacing, textVariants } from '../../styles/styles';
+import { OnboardingScreen, OptionButton } from '@/components';
+import { OnboardingScreenProps } from '@/types/navigation';
+import { useOnboarding } from '@/context';
+import { onboardingContent } from '@/constants/onboarding';
+import { buttonVariants, colors, spacing, textVariants } from '@/styles/styles';
 
 const MealTimesScreen: React.FC<OnboardingScreenProps<'MealTimes'>> = ({ navigation }) => {
   // Get the content for this screen from onboarding content

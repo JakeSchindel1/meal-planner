@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../navigation/AppNavigator';
+import { RootStackParamList } from '@/navigation/AppNavigator';
 import { useNavigation } from '@react-navigation/native';
-import { colors, spacing, textVariants, buttonVariants, inputVariants, layout, linkStyles } from '../../styles/styles';
-import { API_URL } from '../../services/api';
-import { useAuth } from '../../context'; // or useAuthentication from '../hooks'
+import { colors, spacing, textVariants, buttonVariants, inputVariants, layout, linkStyles } from '@/styles/styles';
+import { API_URL } from '@/services/api';
+import { useAuth } from '@/context'; // or useAuthentication from '@/hooks'
 
 type LoginScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Login'>;
 

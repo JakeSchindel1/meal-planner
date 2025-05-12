@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ActivityIndicator } from 'react-native';
-import { buttonVariants, textVariants, colors, spacing } from '../../styles/styles';
+import { buttonVariants, textVariants, colors, spacing } from '@/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 
 interface PublishButtonProps {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
-import { textVariants, colors, spacing } from '../../styles/styles';
+import { textVariants, colors, spacing } from '@/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 
 interface PhotoUploadProps {

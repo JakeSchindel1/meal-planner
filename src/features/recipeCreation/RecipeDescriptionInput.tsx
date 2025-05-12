@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput } from 'react-native';
-import { textVariants, inputVariants, colors, spacing } from '../../styles/styles';
+import { textVariants, inputVariants, colors, spacing } from '@/styles/styles';
 
 interface RecipeDescriptionInputProps {
   recipeId: string;

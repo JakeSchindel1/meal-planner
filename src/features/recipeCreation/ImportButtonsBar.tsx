@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput, Alert } from 'react-native';
-import { buttonVariants, textVariants, colors, spacing, inputVariants } from '../../styles/styles';
+import { buttonVariants, textVariants, colors, spacing, inputVariants } from '@/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 
 interface ImportButtonsBarProps {

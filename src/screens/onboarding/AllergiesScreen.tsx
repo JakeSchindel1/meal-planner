@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
-import { OnboardingScreen, OptionButton, CustomTextInput } from '../../components';
-import { OnboardingScreenProps } from '../../types/navigation';
-import { useOnboarding } from '../../context';
-import { onboardingContent } from '../../lib/constants/onboarding';
-import { buttonVariants, colors, spacing, textVariants } from '../../styles/styles';
+import { OnboardingScreen, OptionButton, CustomTextInput } from '@/components';
+import { OnboardingScreenProps } from '@/types/navigation';
+import { useOnboarding } from '@/context';
+import { onboardingContent } from '@/constants/onboarding';
+import { buttonVariants, colors, spacing, textVariants } from '@/styles/styles';
 
 const AllergiesScreen: React.FC<OnboardingScreenProps<'Allergies'>> = ({ navigation }) => {
   // Get the content for this screen from onboarding content

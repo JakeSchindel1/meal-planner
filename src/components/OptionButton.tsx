@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
-import { colors, spacing, textVariants } from '../styles/styles';
+import { colors, spacing, textVariants } from '@/styles/styles';
 
 // Props for the option button
 interface OptionButtonProps {

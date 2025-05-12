@@ -1,14 +1,15 @@
 /**
- * Barrel file for navigation exports
+ * Navigation barrel file for easy imports
  * 
- * Example usage:
+ * Usage:
  * import { AppNavigator, navigate } from '@/navigation';
  */
 
-// Export navigation components and utilities
+// Export AppNavigator and navigationService functions
 export { default as AppNavigator } from './AppNavigator';
 export { navigate, navigationRef } from './navigationService';
 export type { RootStackParamList } from './AppNavigator';
 
+// These are commented out to avoid duplicate exports
 // export { default as AppNavigator } from './AppNavigator';
 // export * from './navigationService'; 

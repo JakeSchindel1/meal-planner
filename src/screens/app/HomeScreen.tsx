@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, Alert } from 'react-native';
-import { useAuthentication } from '../../hooks';
-import { layout, textVariants, buttonVariants, spacing, colors } from '../../styles/styles';
+import { useAuthentication } from '@/hooks';
+import { layout, textVariants, buttonVariants, spacing, colors } from '@/styles/styles';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 // HomeScreen component
 const HomeScreen: React.FC = () => {

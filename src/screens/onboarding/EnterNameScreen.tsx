@@ -9,11 +9,11 @@ import {
   KeyboardAvoidingView,
   Platform
 } from 'react-native';
-import { buttonVariants, colors, spacing, textVariants, layout, inputVariants } from '../../styles/styles';
+import { buttonVariants, colors, spacing, textVariants, layout, inputVariants } from '@/styles/styles';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { OnboardingStackParamList } from '../../types/navigation';
-import { useOnboarding } from '../../context'; 
+import { OnboardingStackParamList } from '@/types/navigation';
+import { useOnboarding } from '@/context'; 
 // Define navigation type for TypeScript
 type NavigationProp = StackNavigationProp<OnboardingStackParamList, 'EnterNameScreen'>;
 

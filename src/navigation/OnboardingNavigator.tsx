@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { OnboardingStackParamList } from '../types/navigation';
-import { OnboardingProvider } from '../context';
+import { OnboardingStackParamList } from '@/types/navigation';
+import { OnboardingProvider } from '@/context';
 
 // Import all screens from the barrel export
 import {
@@ -18,7 +18,7 @@ import {
   EnterNameScreen,
   EnterEmailScreen,
   EnterPasswordScreen,
-} from '../screens/onboarding';
+} from '@/screens/onboarding';
 
 // Create the stack navigator
 const Stack = createStackNavigator<OnboardingStackParamList>();

@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
-import LoginScreen from '../screens/auth/LoginScreen';
-import AuthChoiceScreen from '../screens/auth/AuthChoiceScreen';
+import LoginScreen from '@/screens/auth/LoginScreen';
+import AuthChoiceScreen from '@/screens/auth/AuthChoiceScreen';
 import { navigationRef } from './navigationService';
-import { useAuth } from '../context';
-import { checkOnboardingComplete } from '../utils/onboardingStorage';
+import { useAuth } from '@/context';
+import { checkOnboardingComplete } from '@/utils/onboardingStorage';
 import OnboardingNavigator from './OnboardingNavigator';
 import TabsNavigator from './TabsNavigator'; // ✅ Import your bottom tab navigator
 

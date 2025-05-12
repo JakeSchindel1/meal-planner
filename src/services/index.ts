@@ -1,12 +1,12 @@
 /**
- * Barrel file for service exports
+ * Services barrel file for easy imports
  * 
- * Example usage:
+ * Usage:
  * import { api, supabaseService } from '@/services';
  */
 
-// Export services below
+// Export services
 // export * from './api';
 // export * from './supabaseService';
-export { default as supabase } from '../lib/supabaseClient';
+export { default as supabase } from '@/lib/supabaseClient';
 export { API_URL } from './api'; 

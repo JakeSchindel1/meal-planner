@@ -1,9 +1,9 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from '../screens/app/HomeScreen';
-import SearchScreen from '../screens/app/SearchScreen';
-import PantryScreen from '../screens/app/PantryScreen';
-import ProfileScreen from '../screens/app/ProfileScreen';
+import HomeScreen from '@/screens/app/HomeScreen';
+import SearchScreen from '@/screens/app/SearchScreen';
+import PantryScreen from '@/screens/app/PantryScreen';
+import ProfileScreen from '@/screens/app/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 import PostNavigator from './PostNavigator';
 

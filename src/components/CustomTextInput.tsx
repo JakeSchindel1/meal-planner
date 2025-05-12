@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { colors, spacing, inputVariants } from '../styles/styles';
+import { colors, spacing, inputVariants } from '@/styles/styles';
 
 // Props for the custom text input with add button
 interface CustomTextInputProps {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
-import { colors, spacing, textVariants, layout } from '../styles/styles';
+import { colors, spacing, textVariants, layout } from '@/styles/styles';
 import ProgressBar from './ProgressBar';
 
 // Props for the onboarding screen template

@@ -10,12 +10,12 @@ import {
   Platform,
   Alert,
 } from 'react-native';
-import { buttonVariants, colors, spacing, textVariants, layout, inputVariants } from '../../styles/styles';
+import { buttonVariants, colors, spacing, textVariants, layout, inputVariants } from '@/styles/styles';
 import { useNavigation } from '@react-navigation/native';
-import { useOnboarding } from '../../context'; // 👈 Import your onboarding context
+import { useOnboarding } from '@/context'; // 👈 Import your onboarding context
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../navigation/AppNavigator'; // or wherever your main stack types are
-import { API_URL } from '../../services/api';
+import { RootStackParamList } from '@/navigation/AppNavigator'; // or wherever your main stack types are
+import { API_URL } from '@/services/api';
 
 const EnterPasswordScreen: React.FC = () => {
   const [password, setPassword] = useState('');

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RecipeCreatorScreen } from '../features/recipeCreation';
-import { colors } from '../styles/styles';
+import { RecipeCreatorScreen } from '@/features/recipeCreation';
+import { colors } from '@/styles/styles';
 import { ScrollView } from 'react-native';
 
 // Define types for the Post stack navigator

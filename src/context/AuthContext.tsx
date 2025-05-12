@@ -1,11 +1,13 @@
+// src/context/AuthContext.tsx
 import React, { createContext, useState, useEffect, useContext } from 'react';
-import { supabase } from '../services';
+import { supabase } from '@/services';
 import { User, Session, AuthError } from '@supabase/supabase-js';
-import { API_URL } from '../services/api';
+import { API_URL } from '@/services/api';
 
-// Define the context state type
+// Extended context type
 type AuthContextType = {
-  user: User | null;
+  authUserId: string | null;                 // ✅ NEW → true Supabase auth user ID
+  user: User | null;                         // your internal user profile
   session: Session | null;
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -14,8 +16,8 @@ type AuthContextType = {
   signup: (email: string, password: string) => Promise<{ error: AuthError | null, user: User | null }>;
 };
 
-// Create the context with default values
 const AuthContext = createContext<AuthContextType>({
+  authUserId: null,
   user: null,
   session: null,
   isLoading: true,
@@ -25,16 +27,14 @@ const AuthContext = createContext<AuthContextType>({
   signup: async () => ({ error: null, user: null }),
 });
 
-// Custom hook to use the auth context
 export const useAuth = () => useContext(AuthContext);
 
-// Provider component
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [authUserId, setAuthUserId] = useState<string | null>(null);   // ✅ NEW
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // update session count and last login 
   const updateUserSession = async (userId: string) => {
     try {
       await fetch(`${API_URL}/user/updateSession`, {
@@ -47,21 +47,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Initialize auth state with current session if it exists
   useEffect(() => {
     const initializeAuth = async () => {
       setIsLoading(true);
-      
       try {
-        const { data: { session: currentSession }, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          console.error('Error getting session:', error.message);
-        }
-        
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
         if (currentSession) {
           setSession(currentSession);
-          setUser(currentSession.user);
+          setAuthUserId(currentSession.user.id);                          // ✅ store Supabase auth user id
         }
       } catch (error) {
         console.error('Unexpected error during auth initialization:', error);
@@ -75,7 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
         setSession(currentSession);
-        setUser(currentSession?.user ?? null);
+        setAuthUserId(currentSession?.user.id ?? null);                  // ✅ update auth user id
         setIsLoading(false);
       }
     );
@@ -93,26 +86,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-  
       const data = await response.json();
-  
       if (!response.ok) {
         return { error: { message: data.error || 'Login failed' } as AuthError };
       }
-  
-      setUser(data.user);
+      setUser(data.user);                                               // internal user profile
       setSession(data.session);
-
-      if (data.user?.id) {
-        await updateUserSession(data.user.id);
-      }
-  
+      setAuthUserId(data.session?.user.id ?? null);                     // ✅ store auth user id
+      if (data.user?.id) await updateUserSession(data.user.id);
       return { error: null };
     } catch (err) {
-      console.error('Unexpected error during login:', err);
-      return {
-        error: new AuthError('An unexpected error occurred during login.'),
-      };
+      return { error: new AuthError('Unexpected error during login.') };
     }
   };
 
@@ -124,23 +108,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-  
       const data = await response.json();
-  
       if (!response.ok) {
         return { error: { message: data.error || 'Signup failed' } as AuthError, user: null };
       }
-  
       setUser(data.user);
-      setSession(null); 
-  
+      setSession(null);
+      setAuthUserId(null);
       return { error: null, user: data.user };
     } catch (err) {
-      console.error('Unexpected error during signup:', err);
-      return {
-        error: new AuthError('An unexpected error occurred during signup.'),
-        user: null,
-      };
+      return { error: new AuthError('Unexpected error during signup.'), user: null };
     }
   };
 
@@ -148,26 +125,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
+      setAuthUserId(null);                                              // ✅ clear on logout
       return { error };
     } catch (err) {
-      console.error('Unexpected error during logout:', err);
-      return { 
-        error: new AuthError('An unexpected error occurred during logout.') 
-      };
+      return { error: new AuthError('Unexpected error during logout.') };
     }
   };
 
-  const value = {
-    user,
-    session,
-    isLoading,
-    isAuthenticated: !!user,
-    login,
-    signup,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{
+      authUserId,
+      user,
+      session,
+      isLoading,
+      isAuthenticated: !!authUserId,
+      login,
+      signup,
+      logout,
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContext;

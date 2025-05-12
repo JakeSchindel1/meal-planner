@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import { inputVariants, colors, spacing, textVariants } from '../../styles/styles';
+import { inputVariants, colors, spacing, textVariants } from '@/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 import { InstructionItem } from './InstructionsEditor';
 

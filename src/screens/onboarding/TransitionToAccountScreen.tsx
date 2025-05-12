@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
-import { buttonVariants, colors, spacing, textVariants, layout } from '../../styles/styles';
-import { useOnboarding } from '../../context';
+import { buttonVariants, colors, spacing, textVariants, layout } from '@/styles/styles';
+import { useOnboarding } from '@/context';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { OnboardingStackParamList } from '../../types/navigation';
+import { OnboardingStackParamList } from '@/types/navigation';
 
 // Define navigation type for TypeScript
 type NavigationProp = StackNavigationProp<OnboardingStackParamList, 'TransitionToAccount'>;

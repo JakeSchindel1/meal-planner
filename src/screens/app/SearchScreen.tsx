@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { layout, textVariants } from '../../styles/styles';
+import { layout, textVariants } from '@/styles/styles';
 
 const SearchScreen: React.FC = () => {
   return (

@@ -2,8 +2,8 @@ import React from 'react';
 import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../navigation/AppNavigator';
-import { textVariants, buttonVariants, spacing, layout } from '../../styles/styles';
+import { RootStackParamList } from '@/navigation/AppNavigator';
+import { textVariants, buttonVariants, spacing, layout } from '@/styles/styles';
 
 // Type-safe navigation prop
 type NavigationProp = StackNavigationProp<RootStackParamList, 'AuthChoice'>;

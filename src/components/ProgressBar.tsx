@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { colors, spacing } from '../styles/styles';
+import { colors, spacing } from '@/styles/styles';
 
 // Props for the progress bar component
 interface ProgressBarProps {
