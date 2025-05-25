@@ -1,63 +1,27 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { textVariants, colors, spacing, buttonVariants } from '@/styles/styles';
+import { textVariants, colors, spacing } from '@/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
 import IngredientRow from './IngredientRow';
+import { useIngredients } from './hooks/useIngredients';
 
 interface IngredientsEditorProps {
   recipeId: string;
 }
 
-// Define ingredient data type
-export interface IngredientItem {
-  id: string;
-  name: string;
-  quantity: string;
-  unit: string;
-  note?: string;
-}
-
 /**
  * Component for editing the recipe ingredients list
+ * Now focuses purely on UI - all business logic moved to useIngredients hook
  */
 const IngredientsEditor: React.FC<IngredientsEditorProps> = ({ recipeId }) => {
-  const [ingredients, setIngredients] = useState<IngredientItem[]>([]);
-  
-  // Add a new blank ingredient
-  const handleAddIngredient = () => {
-    const newIngredient: IngredientItem = {
-      id: `ingredient_${Date.now()}`,
-      name: '',
-      quantity: '',
-      unit: '',
-    };
-    
-    setIngredients([...ingredients, newIngredient]);
-  };
-  
-  // Update an ingredient
-  const handleUpdateIngredient = (updatedIngredient: IngredientItem) => {
-    const updatedIngredients = ingredients.map((ingredient) => 
-      ingredient.id === updatedIngredient.id ? updatedIngredient : ingredient
-    );
-    
-    setIngredients(updatedIngredients);
-    
-    // TODO: Add API call to update ingredient in database
-    console.log('Updated ingredient for recipe ID:', recipeId, updatedIngredient);
-  };
-  
-  // Delete an ingredient
-  const handleDeleteIngredient = (ingredientId: string) => {
-    const updatedIngredients = ingredients.filter(
-      (ingredient) => ingredient.id !== ingredientId
-    );
-    
-    setIngredients(updatedIngredients);
-    
-    // TODO: Add API call to delete ingredient from database
-    console.log('Deleted ingredient for recipe ID:', recipeId, ingredientId);
-  };
+  // All state management and business logic is now in this custom hook
+  const {
+    ingredients,
+    isLoading,
+    addIngredient,
+    updateIngredient,
+    deleteIngredient,
+  } = useIngredients(recipeId);
   
   return (
     <View style={styles.container}>
@@ -68,7 +32,9 @@ const IngredientsEditor: React.FC<IngredientsEditorProps> = ({ recipeId }) => {
       
       {ingredients.length === 0 ? (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyText}>No ingredients added yet</Text>
+          <Text style={styles.emptyText}>
+            {isLoading ? 'Loading ingredients...' : 'No ingredients added yet'}
+          </Text>
         </View>
       ) : (
         <View style={styles.list}>
@@ -77,8 +43,8 @@ const IngredientsEditor: React.FC<IngredientsEditorProps> = ({ recipeId }) => {
               {index > 0 && <View style={styles.separator} />}
               <IngredientRow
                 ingredientData={item}
-                onChange={handleUpdateIngredient}
-                onDelete={handleDeleteIngredient}
+                onChange={updateIngredient}
+                onDelete={deleteIngredient}
               />
             </React.Fragment>
           ))}
@@ -87,7 +53,8 @@ const IngredientsEditor: React.FC<IngredientsEditorProps> = ({ recipeId }) => {
       
       <TouchableOpacity 
         style={styles.addButton}
-        onPress={handleAddIngredient}
+        onPress={addIngredient}
+        disabled={isLoading}
       >
         <Ionicons name="add-circle-outline" size={20} color={colors.primary} />
         <Text style={styles.addButtonText}>Add Ingredient</Text>

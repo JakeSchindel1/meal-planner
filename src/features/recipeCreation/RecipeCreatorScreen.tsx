@@ -86,37 +86,35 @@ const RecipeCreatorScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.content}>
-        <RecipeNameInput
-          onNameSaved={handleRecipeNameSaved}
-          recipeId={recipeId}
-          userId={authUserId ?? ''}                               // ✅ use correct auth user ID for RLS
-        />
-        {recipeId && (
-          <>
-            <ImportButtonsBar recipeId={recipeId} />
-            <PhotoUpload recipeId={recipeId} />
-            <RecipeDescriptionInput recipeId={recipeId} />
-            <IngredientsEditor recipeId={recipeId} />
-            <InstructionsEditor recipeId={recipeId} />
-            <ApplianceSelector recipeId={recipeId} />
-            <View style={styles.actionButtons}>
-              <SaveDraftButton 
-                recipeId={recipeId} 
-                onSave={handleSaveDraft} 
-                isLoading={isSaving} 
-              />
-              <PublishButton 
-                recipeId={recipeId} 
-                onPublish={handlePublish} 
-                isLoading={isSaving}
-                isDisabled={!recipeName} 
-              />
-              <PreviewButton recipeId={recipeId} />
-            </View>
-          </>
-        )}
-      </View>
+      <RecipeNameInput
+        onNameSaved={handleRecipeNameSaved}
+        recipeId={recipeId}
+        userId={authUserId ?? ''}
+      />
+      {recipeId && (
+        <View style={styles.content}>
+          <ImportButtonsBar recipeId={recipeId} />
+          <PhotoUpload recipeId={recipeId} />
+          <RecipeDescriptionInput recipeId={recipeId} />
+          <IngredientsEditor recipeId={recipeId} />
+          <InstructionsEditor recipeId={recipeId} />
+          <ApplianceSelector recipeId={recipeId} />
+          <View style={styles.actionButtons}>
+            <SaveDraftButton 
+              recipeId={recipeId} 
+              onSave={handleSaveDraft} 
+              isLoading={isSaving} 
+            />
+            <PublishButton 
+              recipeId={recipeId} 
+              onPublish={handlePublish} 
+              isLoading={isSaving}
+              isDisabled={!recipeName} 
+            />
+            <PreviewButton recipeId={recipeId} />
+          </View>
+        </View>
+      )}
     </View>
   );
 };

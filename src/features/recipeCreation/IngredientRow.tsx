@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 import { inputVariants, colors, spacing } from '@/styles/styles';
 import { Ionicons } from '@expo/vector-icons';
-import { IngredientItem } from './IngredientsEditor';
+import { IngredientItem } from './types';
+import IngredientAutoCompleteInput from './components/IngredientAutoCompleteInput';  // ✅ new
 
 interface IngredientRowProps {
   ingredientData: IngredientItem;
@@ -10,7 +11,6 @@ interface IngredientRowProps {
   onDelete: (ingredientId: string) => void;
 }
 
-// Common units for dropdown (in a real app, this could come from an API)
 const COMMON_UNITS = [
   'g', 'kg', 'ml', 'l', 'cup', 'tbsp', 'tsp', 'oz', 'lb', 'pinch', 'piece', 'slice'
 ];
@@ -42,12 +42,10 @@ const IngredientRow: React.FC<IngredientRowProps> = ({
       {isEditing ? (
         <View style={styles.editContainer}>
           <View style={styles.row}>
-            <TextInput
-              style={[inputVariants.default, styles.nameInput]}
-              placeholder="Ingredient name"
+            {/* ✅ Use autocomplete instead of plain TextInput */}
+            <IngredientAutoCompleteInput
               value={ingredient.name}
-              onChangeText={(text) => updateIngredient('name', text)}
-              autoFocus
+              onSelect={(selectedName) => updateIngredient('name', selectedName)}
             />
           </View>
 
@@ -119,7 +117,7 @@ const IngredientRow: React.FC<IngredientRowProps> = ({
               <Ionicons name="pencil" size={20} color={colors.primary} />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => onDelete(ingredient.id)}>
-              <Ionicons name="trash" size={20} color={colors.danger} />
+              <Ionicons name="trash" size={20} color={colors.error} />
             </TouchableOpacity>
           </View>
         </View>
@@ -132,7 +130,7 @@ const styles = StyleSheet.create({
   container: {
     paddingVertical: spacing.sm,
     borderBottomWidth: 1,
-    borderBottomColor: colors.border,
+    borderBottomColor: colors.gray,
   },
   editContainer: {},
   row: {
@@ -158,7 +156,7 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: colors.background,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: colors.gray,
     zIndex: 10,
   },
   unitOption: {
@@ -197,7 +195,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   detailsText: {
-    color: colors.textSecondary,
+    color: colors.secondary,
   },
 });
 

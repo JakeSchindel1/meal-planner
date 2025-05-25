@@ -1,40 +1,40 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import { RecipeCreatorScreen } from '@/features/recipeCreation';
+import PostScreen from '@/screens/app/PostScreen';
 import { colors } from '@/styles/styles';
 import { ScrollView } from 'react-native';
 
 // Define types for the Post stack navigator
 export type PostStackParamList = {
-  RecipeCreator: undefined;
+  Post: undefined;
   // Add other post-related screens here later as needed
 };
 
 const Stack = createStackNavigator<PostStackParamList>();
 
 /**
- * Wrapper component to provide scrolling for RecipeCreatorScreen
+ * Wrapper component to provide scrolling for PostScreen
  */
-const ScrollableRecipeCreator: React.FC = () => {
+const ScrollablePostScreen: React.FC = () => {
   return (
     <ScrollView 
       style={{ flex: 1, backgroundColor: colors.background }}
       contentContainerStyle={{ flexGrow: 1 }}
       keyboardShouldPersistTaps="handled"
     >
-      <RecipeCreatorScreen />
+      <PostScreen />
     </ScrollView>
   );
 };
 
 /**
- * Navigation stack for recipe creation
- * Routes directly to RecipeCreatorScreen when Post tab is pressed
+ * Navigation stack for post/recipe creation
+ * Routes to PostScreen when Post tab is pressed
  */
 const PostNavigator = () => {
   return (
     <Stack.Navigator
-      initialRouteName="RecipeCreator"
+      initialRouteName="Post"
       screenOptions={{
         headerStyle: { backgroundColor: colors.primary },
         headerTintColor: colors.background,
@@ -48,14 +48,13 @@ const PostNavigator = () => {
       }}
     >
       <Stack.Screen
-        name="RecipeCreator"
-        component={ScrollableRecipeCreator}
+        name="Post"
+        component={ScrollablePostScreen}
         options={{ 
-          title: 'Create Recipe',
-          headerTitleAlign: 'center',
+          headerShown: false,
         }}
       />
-      {/* Add additional recipe-related screens here */}
+      {/* Add additional post-related screens here */}
     </Stack.Navigator>
   );
 };

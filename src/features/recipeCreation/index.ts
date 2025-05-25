@@ -14,6 +14,9 @@ export { default as SaveDraftButton } from './SaveDraftButton';
 export { default as PublishButton } from './PublishButton';
 export { default as PreviewButton } from './PreviewButton';
 
-// Export types
-export type { IngredientItem } from './IngredientsEditor';
-export type { InstructionItem } from './InstructionsEditor'; 
+// Export new architecture components
+export { useIngredients } from './hooks/useIngredients';
+export { IngredientsService } from './services/ingredientsService';
+
+// Export types from the new types folder
+export type { IngredientItem } from './types'; 
